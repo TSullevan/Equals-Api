@@ -1,6 +1,6 @@
 using System;
 
-namespace Equals_Api
+namespace Equals_Api.Models.ViewModel
 {
     public class WeatherForecast
     {

@@ -26,9 +26,11 @@ namespace Equals_Api.Controllers
         [HttpPost]
         public async Task PostAsync([FromForm] IFormFile file)
         {
-            var service = _provider.GetRequiredService<FileService>();
+            FileService service = _provider.GetRequiredService<FileService>();
 
-            var text = await service.ReadFileAsync(file);
+            string text = await service.ReadFileAsync(file);
+            
+            service.SaveFile(text);
         }
     }
 }

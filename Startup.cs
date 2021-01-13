@@ -1,9 +1,12 @@
 using Equals_Api.Models.ServiceModel;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using pagcerto.prepaidCard.api.Models;
 
 namespace Equals_Api
 {
@@ -19,7 +22,17 @@ namespace Equals_Api
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddMvc()
+            .ConfigureApiBehaviorOptions(options => options.SuppressModelStateInvalidFilter = true)
+            .SetCompatibilityVersion(CompatibilityVersion.Version_3_0);
+
             services.AddControllers();
+
+            services.AddDbContextPool<ApiDbContext>(options =>
+            {
+                options.UseSqlServer(Configuration.GetConnectionString("Default"));
+            });
+
             services.AddTransient<FileService>();
         }
 

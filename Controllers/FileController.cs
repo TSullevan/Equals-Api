@@ -1,5 +1,4 @@
 ﻿using System;
-using System.IO;
 using System.Threading.Tasks;
 using Equals_Api.Models.ServiceModel;
 using Microsoft.AspNetCore.Http;

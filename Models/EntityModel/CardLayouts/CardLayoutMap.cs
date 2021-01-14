@@ -1,4 +1,3 @@
-using Equals_Api.Models.EntityModel.AcquiringCompanys;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 

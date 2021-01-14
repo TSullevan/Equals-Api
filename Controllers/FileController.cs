@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 using Equals_Api.Models.ServiceModel;
+using Equals_Api.Models.ViewModel;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.DependencyInjection;
@@ -30,6 +31,15 @@ namespace Equals_Api.Controllers
             string text = await service.ReadFileAsync(file);
             
             service.SaveFile(text);
+        }
+
+        [HttpPost]
+        [Route("periodicity")]
+        public void PostPeriodicity([FromBody] DeliveryPeriodicityModel deliveryPeriodicityModel)
+        {            
+            FileService service = _provider.GetRequiredService<FileService>();
+            
+            service.SaveFilePeriodicity(deliveryPeriodicityModel);
         }
     }
 }

@@ -3,6 +3,7 @@ using System.IO;
 using System.Threading.Tasks;
 using Equals_Api.Extensions;
 using Equals_Api.Models.EntityModel.CardLayouts;
+using Equals_Api.Models.EntityModel.DeliveryPeriodicitys;
 using Equals_Api.Models.ViewModel;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -82,6 +83,16 @@ namespace Equals_Api.Models.ServiceModel
                 _context.CardLayouts.Add(card);
                 _context.SaveChanges();
             }
+        }
+
+        public void SaveFilePeriodicity(DeliveryPeriodicityModel deliveryPeriodicityModel)
+        {
+            DeliveryPeriodicity deliveryPeriodicity = new DeliveryPeriodicity();
+
+            deliveryPeriodicity = DeliveryPeriodicityMapping.MapFrom(deliveryPeriodicityModel);
+            
+            _context.DeliveryPeriodicitys.Add(deliveryPeriodicity);
+            _context.SaveChanges();
         }
     }
 }

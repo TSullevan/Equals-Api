@@ -1,5 +1,6 @@
 using System;
 using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
 using Equals_Api.Extensions;
 using Equals_Api.Models.EntityModel.CardLayouts;
@@ -7,7 +8,6 @@ using Equals_Api.Models.EntityModel.DeliveryPeriodicitys;
 using Equals_Api.Models.ViewModel;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using pagcerto.prepaidCard.api.Models;
 
 namespace Equals_Api.Models.ServiceModel
 {
@@ -90,8 +90,23 @@ namespace Equals_Api.Models.ServiceModel
             DeliveryPeriodicity deliveryPeriodicity = new DeliveryPeriodicity();
 
             deliveryPeriodicity = DeliveryPeriodicityMapping.MapFrom(deliveryPeriodicityModel);
+
+            DeliveryPeriodicity deliveryPeriodicityFound = _context.DeliveryPeriodicitys
+                .FirstOrDefault<DeliveryPeriodicity>( entity => entity.AcquiringCompanyId == deliveryPeriodicity.AcquiringCompanyId);
+
+            if(deliveryPeriodicityFound != null)
+            {
+                deliveryPeriodicityFound.FilesQty = deliveryPeriodicity.FilesQty;
+                deliveryPeriodicityFound.DaysWaiting = deliveryPeriodicity.DaysWaiting;
+                deliveryPeriodicityFound.AcquiringCompanyId = deliveryPeriodicity.AcquiringCompanyId;
+
+                _context.DeliveryPeriodicitys.Update(deliveryPeriodicityFound);
+            }
+            else if(deliveryPeriodicityFound == null)
+            {
+                _context.DeliveryPeriodicitys.Add(deliveryPeriodicity);
+            }
             
-            _context.DeliveryPeriodicitys.Add(deliveryPeriodicity);
             _context.SaveChanges();
         }
     }
